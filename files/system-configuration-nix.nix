@@ -1,4 +1,5 @@
 {pkgs}: pkgs.writeText "system-configuration.nix" ''
+{ lib, pkgs, ... }: {
   #
   # The system-specific configuration.
   # This file is safe to edit!
@@ -38,4 +39,5 @@
 
   networking.useNetworkd = false;
   networking.useDHCP = false;
+}
 ''
