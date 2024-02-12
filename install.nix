@@ -55,6 +55,11 @@ in pkgs.writeShellScriptBin "install" ''
 
   echo "Deleting existing partitions on $disk"
 
+  umount -f /mnt/boot || true
+  umount -f /mnt || true
+
+  wipefs -af "$disk"
+
   sgdisk \
     --zap-all \
     --new=1:0:+500M --typecode=1:ef00 --change-name=1:"EFI System Partition" \
