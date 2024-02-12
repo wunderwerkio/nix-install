@@ -2,9 +2,16 @@
   flake-nix = import ./files/flake-nix.nix {
     inherit pkgs;
   };
+  configuration-nix = import ./files/configuration-nix.nix {
+    inherit pkgs;
+  };
+  system-configuration-nix = import ./files/system-configuration-nix.nix {
+    inherit pkgs;
+  };
 in pkgs.writeShellScriptBin "install" ''
   hostname="$1"
   disk="$2"
+  nixos_version=$(nixos-version | grep -oE '^[0-9]+\.[0-9]+')
 
   usage() {
     scr=$(basename "$0")
@@ -67,4 +74,6 @@ in pkgs.writeShellScriptBin "install" ''
   nixos-generate-config --root /mnt
 
   sed "s/###HOST###/$hostname/g" ${flake-nix} > /mnt/etc/nixos/flake.nix
+  sed "s/###HOST###/$hostname/g" ${system-configuration-nix} > /mnt/etc/nixos/system-configuration.nix
+  sed "s/###NIXOS-VERSION###/$nixos_version/g" ${configuration-nix} > /mnt/etc/nixos/configuration.nix
 ''
