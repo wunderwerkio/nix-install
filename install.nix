@@ -85,4 +85,11 @@ in pkgs.writeShellScriptBin "install" ''
   sed "s/###NIXOS-VERSION###/$nixos_version/g" ${configuration-nix} > /mnt/etc/nixos/configuration.nix
 
   echo "Installing NixOS"
+  nixos-install --flake "/mnt/etc/nixos#$hostname"
+
+  echo "#"
+  echo "#"
+  echo "# NixOS Installed! Unmount the ISO and reboot :-)"
+  echo "#"
+  echo "#"
 ''
