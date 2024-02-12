@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  flake-nix: import ./files/flake-nix.nix {
+  flake-nix = import ./files/flake-nix.nix {
     inherit pkgs;
   };
 in pkgs.writeShellScriptBin "install" ''
