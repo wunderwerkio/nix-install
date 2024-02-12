@@ -20,11 +20,9 @@
           inherit system;
         };
       in rec {
-        install = import ./install.nix {
+        hetzner = import ./scripts/hetzner.nix {
           inherit pkgs;
         };
-
-        default = install;
       }
     );
 
