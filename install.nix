@@ -1,19 +1,23 @@
-{pkgs, ...}:
-pkgs.writeShellScriptBin "install" ''
-  disk="$1"
+{pkgs, ...}: let
+  flake-nix: import ./files/flake-nix.nix {
+    inherit pkgs;
+  };
+in pkgs.writeShellScriptBin "install" ''
+  hostname="$1"
+  disk="$2"
 
   usage() {
     scr=$(basename "$0")
 
-    echo "Usage: $scr <disk>"
+    echo "Usage: $scr <hostname> <disk>"
     echo
     echo "Example:"
-    echo "  $scr /dev/sda"
+    echo "  $scr my-machine /dev/sda"
     exit 1
   }
 
   # Validate inputs.
-  if [ -z "''${1-}" ]; then
+  if [ -z "''${1-}" ] || [ -z "''${2-}" ]; then
     usage
   fi
 
@@ -58,4 +62,9 @@ pkgs.writeShellScriptBin "install" ''
   mount /dev/sda2 /mnt
   mkdir -p /mnt/boot
   mount /dev/sda1 /mnt/boot
+
+  echo "Generating base nix config"
+  nixos-generate-config --root /mnt
+
+  cp ${flake-nix}/flake.nix /mnt/etc/nixos/flake.nix
 ''
