@@ -55,9 +55,11 @@ in pkgs.writeShellScriptBin "install" ''
 
   echo "Deleting existing partitions on $disk"
 
-  sgdisk --zap-all "$disk"
-  sgdisk --new=1:0:+500M --typecode=1:ef00 --change-name=1:"EFI System Partition" "$disk"
-  sgdisk --new=2:0:0 --typecode=2:8300 --change-name=2:"Linux Filesystem" "$disk"
+  sgdisk \
+    --zap-all \
+    --new=1:0:+500M --typecode=1:ef00 --change-name=1:"EFI System Partition" \
+    --new=2:0:0 --typecode=2:8300 --change-name=2:"Linux Filesystem" \
+    "$disk"
 
   echo "Creating filesystems"
 
@@ -76,4 +78,6 @@ in pkgs.writeShellScriptBin "install" ''
   sed "s/###HOST###/$hostname/g" ${flake-nix} > /mnt/etc/nixos/flake.nix
   sed "s/###HOST###/$hostname/g" ${system-configuration-nix} > /mnt/etc/nixos/system-configuration.nix
   sed "s/###NIXOS-VERSION###/$nixos_version/g" ${configuration-nix} > /mnt/etc/nixos/configuration.nix
+
+  echo "Installing NixOS"
 ''
