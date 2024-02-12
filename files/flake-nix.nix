@@ -6,7 +6,7 @@
 
   outputs = { self, nixpkgs, ...}@inputs: {
     nixosConfigurations = {
-      "some-hostname" = nixpkgs.lib.nixosSystem {
+      "###HOST###" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
 
         modules = [

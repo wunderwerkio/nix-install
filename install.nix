@@ -66,5 +66,5 @@ in pkgs.writeShellScriptBin "install" ''
   echo "Generating base nix config"
   nixos-generate-config --root /mnt
 
-  cp ${flake-nix}/flake.nix /mnt/etc/nixos/flake.nix
+  sed "s/###HOST###/$hostname/g" ${flake-nix} > /mnt/etc/nixos/flake.nix
 ''
