@@ -83,9 +83,9 @@ in
     echo "Generating base nix config"
     nixos-generate-config --root /mnt
 
-    sed -e "s/###HOST###/$hostname/g" ${flake-nix} > /mnt/etc/nixos/flake.nix
-    sed -e "s/###HOST###/$hostname/g" -e "s/###IPV6###/$ipv6/g" ${system-configuration-nix} > /mnt/etc/nixos/system-configuration.nix
-    sed -e "s/###NIXOS-VERSION###/$nixos_version/g" ${configuration-nix} > /mnt/etc/nixos/configuration.nix
+    sed -e "s|###HOST###|$hostname|g" ${flake-nix} > /mnt/etc/nixos/flake.nix
+    sed -e "s|###HOST###|$hostname|g" -e "s|###IPV6###|$ipv6|g" ${system-configuration-nix} > /mnt/etc/nixos/system-configuration.nix
+    sed -e "s|###NIXOS-VERSION###|$nixos_version|g" ${configuration-nix} > /mnt/etc/nixos/configuration.nix
 
     echo "Installing NixOS"
     nixos-install --flake "/mnt/etc/nixos#$hostname"
