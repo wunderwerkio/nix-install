@@ -19,10 +19,12 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-      in {
-        default = import ./install.nix {
+      in rec {
+        install = import ./install.nix {
           inherit pkgs;
         };
+
+        default = install;
       }
     );
 

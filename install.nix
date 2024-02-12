@@ -1,5 +1,5 @@
 {pkgs, ...}:
-pkgs.writeShellScript "install" ''
+pkgs.writeShellScriptBin "install" ''
   disk="$1"
 
   usage() {
