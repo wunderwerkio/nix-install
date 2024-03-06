@@ -32,6 +32,12 @@ pkgs.writeText "system-configuration.nix" ''
     # Set your time zone.
     time.timeZone = "Europe/Vienna";
 
+    # Enable QEMU Guest Agent.
+    services.qemuGuest.enable = true;
+    # Make sure setting a password actually works.
+    # https://discourse.nixos.org/t/qemu-guest-agent-on-hetzner-cloud-doesnt-work/8864/2
+    systemd.services.qemu-guest-agent.path = [ pkgs.shadow ];
+
     # Networking.
     systemd.network = {
       enable = true;
